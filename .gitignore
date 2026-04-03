@@ -1,0 +1,19 @@
+# Entorno virtual
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# Datos pesados opcionales
+# data/processed/*.csv
+# data/processed/*.parquet
+
+# Archivos temporales
+*.log

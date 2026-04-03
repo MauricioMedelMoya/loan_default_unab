@@ -1,0 +1,15 @@
+Cada vez que avance:
+
+git status
+git add .
+git commit -m "Agrega avance del EDA inicial"
+
+
+Cuando tenga repo remoto:
+
+git push
+
+Para crear ramas:
+
+git switch -c eda
+
