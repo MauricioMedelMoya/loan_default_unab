@@ -1,99 +1,66 @@
-﻿# Loan Default Prediction
+# Loan Default Prediction
 
-Este proyecto tiene dos partes:
-- un notebook con el análisis y el modelado
-- una app web local para probar el modelo entrenado
+Proyecto de aprendizaje de máquina para predecir incumplimiento de créditos a partir de variables sociodemográficas, laborales y financieras. La segunda iteración mantiene Random Forest como modelo final, pero amplía la comparación experimental con Gradient Boosting y tres configuraciones MLP implementadas con `scikit-learn`.
 
-## Archivos principales
+## Estructura
 
-- `notebooks/loan_default.ipynb`: notebook principal
-- `app/app.py`: app local
-- `app/model.pkl`: modelo entrenado usado por la app
+- `notebooks/loan_default.ipynb`: análisis exploratorio, comparación de modelos, balanceo, threshold tuning, matriz de confusión y SHAP.
+- `src/refinement_pipeline.py`: script reproducible para recalcular métricas, gráficos y el pipeline final.
+- `app/app.py`: app Dash local para ingresar datos crudos y ejecutar inferencia con el pipeline entrenado.
+- `app/model.pkl`: pipeline final serializado con preprocesamiento y Random Forest.
+- `app/model_metadata.pkl`: threshold optimizado y métricas finales usadas por la app.
+- `data/raw/credit_risk_dataset.csv`: dataset original.
+- `.generated_assets/`: carpeta generada automáticamente con CSV y PNG para el informe. Está ignorada por Git.
 
-## Requisitos
+## Instalación
 
-Necesitas tener instalado:
-- Python 3.10 o superior
-- `pip`
-
-## Crear entorno virtual
-
-### Windows
+Requiere Python 3.10 o superior.
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-```
-
-### macOS
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-## Instalar dependencias
-
-Desde la carpeta raíz del proyecto:
-
-```bash
 pip install -r requirements.txt
-pip install jupyter dash joblib
 ```
+
+## Reproducir resultados
+
+Desde la raíz del proyecto:
+
+```powershell
+.\.venv\Scripts\python.exe .\src\refinement_pipeline.py
+```
+
+El script genera:
+
+- `.generated_assets/comparacion_modelos_ml_dl.csv`
+- `.generated_assets/comparacion_balanceo.csv`
+- `.generated_assets/threshold_tuning.csv`
+- `.generated_assets/metricas_modelo_final.csv`
+- gráficos PNG de comparación, balanceo, threshold tuning y matriz de confusión
+- `app/model.pkl` y `app/model_metadata.pkl`
 
 ## Ejecutar el notebook
 
-Desde la carpeta raíz del proyecto:
-
-```bash
+```powershell
 jupyter notebook
 ```
 
-Después abre:
+Luego abrir:
 
 ```text
 notebooks/loan_default.ipynb
 ```
 
-Si prefieres, también puedes usar:
-
-```bash
-jupyter lab
-```
-
-## Ejecutar la app
-
-Desde la carpeta raíz del proyecto:
-
-### Windows
+## Ejecutar la app Dash
 
 ```powershell
-python .\app\app.py
+.\.venv\Scripts\python.exe .\app\app.py
 ```
 
-### macOS
-
-```bash
-python3 app/app.py
-```
-
-Luego abre en tu navegador:
+Abrir en el navegador:
 
 ```text
 http://127.0.0.1:8050/
 ```
 
-## Si algo falla
-
-Si aparece un error de dependencias, vuelve a instalar:
-
-```bash
-pip install -r requirements.txt
-pip install jupyter dash joblib
-```
-
-Si PowerShell no deja activar el entorno virtual en Windows, ejecuta una vez:
-
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
+La app usa el pipeline completo, por lo que recibe variables crudas y aplica internamente imputación, escalamiento, One-Hot Encoding y predicción.
