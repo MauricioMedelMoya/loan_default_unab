@@ -18,6 +18,7 @@ __pycache__/
 # Archivos temporales
 *.log
 .generated_assets/
+app/*.db
 
 
 *.txt
